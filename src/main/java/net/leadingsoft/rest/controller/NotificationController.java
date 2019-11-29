@@ -35,7 +35,7 @@ public class NotificationController {
   String slackUrl;
 
   @RequestMapping(value = "/callback")
-  public ResponseEntity<Void> callback(HttpServletRequest request, @RequestBody String payload) throws Exception {
+  public ResponseEntity<Void> callback(HttpServletRequest request, @RequestBody(required = false) String payload) throws Exception {
     Map<String, String> bodyMap = new HashMap<>();
     bodyMap.put("channel", "#callback");
     bodyMap.put("username", "callback");
