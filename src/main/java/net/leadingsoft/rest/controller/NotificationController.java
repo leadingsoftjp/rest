@@ -34,7 +34,7 @@ public class NotificationController {
   @Value("${slack.url}")
   String slackUrl;
 
-  @RequestMapping(value = {"", "/", "/{topic}", "/{topic}/{queue}"} )
+  @RequestMapping(value = {"", "/**"} )
   public ResponseEntity<Void> callback(HttpServletRequest request, @RequestBody(required = false) String payload) throws Exception {
     Map<String, String> bodyMap = new HashMap<>();
     bodyMap.put("channel", "#callback");
