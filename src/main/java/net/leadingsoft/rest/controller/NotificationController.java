@@ -46,7 +46,7 @@ public class NotificationController {
       throws Exception {
     resendSlack(request, payload);
 
-    String result = "{\"status\": \"COMPLETE\"}";
+    String result = "{\"Status\": \"COMPLETE\"}";
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
