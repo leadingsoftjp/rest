@@ -34,8 +34,23 @@ public class NotificationController {
   @Value("${slack.url}")
   String slackUrl;
 
-  @RequestMapping(value = {"", "/**"} )
-  public ResponseEntity<Void> callback(HttpServletRequest request, @RequestBody(required = false) String payload) throws Exception {
+  @RequestMapping(value = { "", "/**" })
+  public ResponseEntity<Void> callback(HttpServletRequest request, @RequestBody(required = false) String payload)
+      throws Exception {
+    resendSlack(request, payload);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @RequestMapping(value = { "/upload" })
+  public ResponseEntity<String> upload(HttpServletRequest request, @RequestBody(required = false) String payload)
+      throws Exception {
+    resendSlack(request, payload);
+
+    String result = "{\"status\": \"COMPLETE\"}";
+    return new ResponseEntity<>(result, HttpStatus.OK);
+  }
+
+  private void resendSlack(HttpServletRequest request, String payload) throws Exception {
     Map<String, String> bodyMap = new HashMap<>();
     bodyMap.put("channel", "#callback");
     bodyMap.put("username", "callback");
@@ -49,8 +64,6 @@ public class NotificationController {
         .accept(MediaType.APPLICATION_FORM_URLENCODED)
         .body(param);
     restTemplate.exchange(requestEntity, String.class).getBody();
-
-    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   private String requestToString(HttpServletRequest request) {
